@@ -16,6 +16,7 @@ title="${dates} 172.16.172.2 Server Info"
 
 unset tecreset os architecture kernelrelease internalip externalip nameserver loadaverage
 rm /tmp/info.txt
+fi
 
 while getopts iv name
 do
@@ -96,14 +97,14 @@ then
   #cat /tmp/ramcache | grep -v "Swap"
   #echo -e '\E[32m'"Swap Usages :" $tecreset
   #cat /tmp/ramcache | grep -v "Mem"
-  free -m -w | grep "Mem:" | awk ' BEGIN{ print "totalMem","usedMem","availableMem","Use%"  }  END{  printf ("%-10s %-10s %-10s %-10s \n",$2,$3,$4,($2-$8)/$2)  }' | tee -a /tmp/info.txt
+  free -m -w | grep "Mem:" | awk ' BEGIN{ print "totalMem","usedMem","availableMem","Use"  }  END{  printf ("%-10s %-10s %-10s %-10s \n",$2,$3,$4,($2-$8)/$2)  }' | tee -a /tmp/info.txt
 
 
 
   # Check Disk Usages
   echo -e '\E[32m'"Disk Usages :" $tecreset | tee -a /tmp/info.txt
 
-  df -m -x devtmpfs -x tmpfs -x debugfs -l | awk ' BEGIN{ print "totalSpace","usedSpace","availableSpace","Use%"   }  {  totalSpace+=$2 ; usedSpace+=$3 ; availableSpace+=$4  } END { printf ("%-10s %-10s %-10s %-10s \n",totalSpace,usedSpace,availableSpace,usedSpace/totalSpace)  }' | tee -a /tmp/info.txt
+  df -m -x devtmpfs -x tmpfs -x debugfs -x overlay -x shm -l | awk ' BEGIN{ print "totalSpace","usedSpace","availableSpace","Use"   }  {  totalSpace+=$2 ; usedSpace+=$3 ; availableSpace+=$4  } END { printf ("%-10s %-10s %-10s %-10s \n",totalSpace,usedSpace,availableSpace,usedSpace/totalSpace)  }' | tee -a /tmp/info.txt
   
 
 
