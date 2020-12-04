@@ -15,7 +15,11 @@ dates=$(date +"%Y-%m-%d %H-%M-%S")
 title="${dates} 172.16.172.2 Server Info"
 
 unset tecreset os architecture kernelrelease internalip externalip nameserver loadaverage
-rm /tmp/info.txt
+if  [ -f "/tmp/info.txt" ]; then
+  rm -f "/tmp/info.txt"
+fi
+if  [ -f "/tmp/send.txt" ]; then
+  rm -f "/tmp/send.txt"
 fi
 
 while getopts iv name
